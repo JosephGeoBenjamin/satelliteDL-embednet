@@ -1,3 +1,16 @@
+'''ResNet in PyTorch.
+Reference:
+[1] Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun
+    Deep Residual Learning for Image Recognition. arXiv:1512.03385
+[2] Olaf Ronneberger, Philipp Fischer, Thomas Brox
+	U-Net: Convolutional Networks for Biomedical Image Segmentation. arXiv:1505.04597
+    
+Repository:
+[1] https://github.com/usuyama/pytorch-unet/blob/master/pytorch_resnet18_unet.ipynb
+[2] https://github.com/pytorch/vision/blob/master/torchvision/models/resnet.py
+
+'''
+
 import torch
 import torch.nn as nn
 from torchvision import models
@@ -52,6 +65,7 @@ class ResNetUNet(nn.Module):
         layer4 = self.layer4(layer3)
         
         layer4 = self.layer4_1x1(layer4)
+        
         x = self.upsample(layer4)
         layer3 = self.layer3_1x1(layer3)
         x = torch.cat([x, layer3], dim=1)
