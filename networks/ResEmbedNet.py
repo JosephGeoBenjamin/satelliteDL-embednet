@@ -3,7 +3,7 @@ Reference:
 [1] Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun
     Deep Residual Learning for Image Recognition. arXiv:1512.03385
 
-Repository:
+Base Code:
 [1] https://github.com/pytorch/vision/blob/master/torchvision/models/resnet.py
 [2] https://github.com/kuangliu/pytorch-cifar
 '''
