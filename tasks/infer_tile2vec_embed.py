@@ -49,26 +49,6 @@ tilenet.load_state_dict(checkpoint)
 tilenet.eval()
 
 
-# Embed tiles
-def tile2vec_embed_generator( readPath, savePath ):
-
-    tileList = dirs = glob.glob(readPath+"/*.npy",recursive=False)
-    for tilePath in tileList:
-        #Loaded numpy files are in Torch format CHW 4 channel
-        tile = np.load(tilePath)
-        tile = np.expand_dims(tile, axis=0)
-        tile = tile / 255 # Scale to [0, 1]
-        # Embed tile
-        tile = torch.from_numpy(tile).float()
-        tile = Variable(tile)
-        tile = tile.to(device)
-        em = tilenet.encode(tile)
-        em = em.cpu()
-        em = em.data.numpy()
-        emPath = os.path.join(savePath, os.path.basename(tilePath).replace("L-", "TVE-"))
-        np.save(emPath, em)
-
-
 if __name__ == "__main__":
     for jth, (img, path) in enumerate(infer_dataloader):
         t0 = time()
