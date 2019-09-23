@@ -61,7 +61,7 @@ if __name__ == "__main__":
             emPath = fullPath.replace( os.path.basename(fullPath),
                                 os.path.basename(fullPath).replace("L-", "TVE-"))
             em = outEm[i].cpu().data.numpy()
-            np.save(emPath, em)
+            np.save(emPath, em, allow_pickle=False)
 
         t1 = time()
         print('ID:{} Time:{:0.3f}s'.format(jth, t1-t0))
