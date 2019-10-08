@@ -10,15 +10,9 @@ Base Code:
 
 __author__ = 'JGB_Robosapien'
 
+import sys
 import torch
-import torchvision
 from torch import nn
-from torch.autograd import Variable
-from torch.utils.data import DataLoader
-from torchvision import transforms
-from torchvision.utils import save_image
-from torchvision.datasets import ImageFolder
-from torchvision import models
 import torch.nn.functional as F
 
 
@@ -76,9 +70,9 @@ class BasicDeBlock(nn.Module):
         return out
 
 
-class ResEmbedNet(nn.Module):
+class ResEncDecNet(nn.Module):
     def __init__(self, block, num_blocks, inDim = [512,512] ,embedSize = 512):
-        super(ResNet, self).__init__()
+        super(ResEncDecNet, self).__init__()
 
         if block  == BasicBlock:
             deblock = BasicDeBlock
@@ -137,3 +131,12 @@ class ResEmbedNet(nn.Module):
         out = torch.sigmoid(self.debn1(self.deconv1(out)))
 
         return out, emb
+
+if __name__ =="__main__":
+
+    from torchsummary import summary
+
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = ResEncDecNet(BasicBlock,[2,2,2,2])
+    model = model.to(device)
+    summary(model, input_size=(3, 256, 256))

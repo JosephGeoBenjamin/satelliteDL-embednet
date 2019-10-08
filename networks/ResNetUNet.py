@@ -24,7 +24,7 @@ def convrelu(in_channels, out_channels, kernel, padding):
 class ResNetUNet(nn.Module):
 
     def __init__(self, n_class):
-        super().__init__()
+        super(ResNetUNet).__init__()
 
         self.base_model = models.resnet18(pretrained=False)
 
@@ -103,7 +103,7 @@ if __name__ =="__main__":
     from torchsummary import summary
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model = ResNetUNet(6)
+    model = ResNetUNet(3)
     model = model.to(device)
 
-#     summary(model, input_size=(3, 224, 224))
+    summary(model, input_size=(3, 256, 256))
