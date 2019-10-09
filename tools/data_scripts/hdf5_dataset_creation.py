@@ -6,7 +6,7 @@ import numpy as np
 import glob
 import os
 
-READ_PATH = "/home/jgeob/quater-ws/satellite-Embedding/dataset-exp/data/"
+READ_PATH = "/home/jupyter/satellite-dl/satellite-data/transformer-tokens/matrix-tiles/cities/"
 
 def findGridSz(np_files): # starts from 0
     height = 0; width = 0
@@ -24,9 +24,10 @@ def parsePosition(file): # starts from 0
     width = int(nameSplit[-2])
     return height, width
 
-hdf_file =h5py.File("test_data.hdf5", "w-")
+hdf_file =h5py.File("matrix-tiles-cities.hdf5", "w-")
 
 folders = glob.glob(READ_PATH+"/**/",recursive=True)
+print("Folder Read Complete .....")
 for folder in folders:
     np_files = glob.glob(folder+"/*.npy",recursive=False)
     if not np_files:
@@ -34,7 +35,7 @@ for folder in folders:
         continue
     hL, wL = findGridSz(np_files)
     dsetName  = list(filter(None, folder.split("/")))[-1]
-    print (dsetName, hL, wL)
+    print ("******************",dsetName, hL, wL)
     dset = hdf_file.create_dataset( dsetName,
                                     (hL+1, wL+1, 4, 50, 50),
                                     dtype=np.uint8, #### CHANGE AS NEEDED

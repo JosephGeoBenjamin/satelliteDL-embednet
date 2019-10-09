@@ -14,21 +14,26 @@ class PlainTileData(Dataset):
     """
     self.join = os.path.join
 
-    def __init__ (self, dataPath, imgExt=".npy"):
+    def __init__ (self, dataPath, dataCSV=None, imgExt=".npy"):
         if not os.path.exists(dataPath): sys.exit("Enter a Valid READ_PATH")
         self.imgExt = imgExt
-        self.filePath = glob.glob( READ_PATH+"/**/*"+imgExt ,recursive=True)
-        self.filePath = sorted(self.filePath)
+        if not dataCSV:
+            self.filePathList = glob.glob( READ_PATH+"/**/*"+imgExt ,recursive=True)
+            self.filePathList = sorted(self.filePathList)
+        else :
+            with open(dataCSV, "r") as cf:
+                reader = csv.reader(cf)
+                self.filePathList = [r for r in reader]
 
     def __getitem__(self, idx):
-        img = np.load(self.filePath[idx])
+        img = np.load(self.filePathList[idx])
         img = np.expand_dims(img, axis=0)
         img = clip_scale_bands(img)
         img = torch.from_numpy(img).type(torch.FloatTensor)
-        return Variable(img), self.filePath[idx]
+        return Variable(img), self.filePathList[idx]
 
     def __len__(self):
-        return len(self.filePath)
+        return len(self.filePathList)
 
 
     def clip_scale_bands(self, bands, normalize=True, clip_min=0, clip_max=255):
