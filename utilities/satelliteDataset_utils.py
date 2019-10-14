@@ -12,23 +12,21 @@ import csv
 class PlainTileData(Dataset):
     """ Loads all tiles in npy format in folder recursively
     """
-    self.join = os.path.join
 
     def __init__ (self, dataPath, dataCSV=None, imgExt=".npy"):
         if not os.path.exists(dataPath): sys.exit("Enter a Valid READ_PATH")
         self.imgExt = imgExt
         if not dataCSV:
-            self.filePathList = glob.glob( READ_PATH+"/**/*"+imgExt ,recursive=True)
+            self.filePathList = glob.glob( dataPath+"/**/*"+imgExt ,recursive=True)
             self.filePathList = sorted(self.filePathList)
         else :
             with open(dataCSV, "r") as cf:
                 reader = csv.reader(cf)
-                self.filePathList = [r for r in reader]
+                self.filePathList = [ os.path.join(dataPath,r) for r in reader]
 
     def __getitem__(self, idx):
         img = np.load(self.filePathList[idx])
-        img = np.expand_dims(img, axis=0)
-        img = clip_scale_bands(img)
+        img = self.clip_scale_bands(img)
         img = torch.from_numpy(img).type(torch.FloatTensor)
         return Variable(img), self.filePathList[idx]
 

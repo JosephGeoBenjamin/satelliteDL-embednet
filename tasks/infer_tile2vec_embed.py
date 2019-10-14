@@ -40,7 +40,7 @@ tilenet.to(device)
 
 infer_dataset = PlainTileData(dataPath = READ_PATH )
 infer_dataloader = DataLoader(infer_dataset, batch_size=batch_size,
-                        shuffle=False, num_workers=8)
+                        shuffle=False, num_workers=0)
 
 # Load parameters
 model_fn = 'weights/naip_trained.ckpt'
@@ -65,3 +65,8 @@ if __name__ == "__main__":
 
         t1 = time()
         print('ID:{} Time:{:0.3f}s'.format(jth, t1-t0))
+        
+    T1 = time()
+    print('Total Time {:0.3f}s'.format(T1-T0))
+    
+
