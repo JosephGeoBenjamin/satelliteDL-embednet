@@ -51,6 +51,7 @@ class AutoEncoderVx(nn.Module):
         y = self.decoder(z)
         return y
 
+
 if __name__ =="__main__":
 
     from torchsummary import summary

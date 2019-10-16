@@ -44,27 +44,27 @@ class ClubedTileData(Dataset):
     """ Loads all tiles in npy format in folder recursively
     """
     def __init__ (self, dataPath, dataCSV=None, img_ext=".npy"):
-        if not os.path.exists(dataPath): sys.exit("Enter a Valid READ_PATH")
-
+        for path in dataPath:
+            if not os.path.exists(path): sys.exit("Enter a Valid READ_PATH")
+        
         self.img_ext = img_ext
         self.club_sz = len(dataPath)
         self.filePathList = []
-
         if not dataCSV:
-            for fth in range(self.club_sz)
+            for fth in range(self.club_sz):
                 tempList = glob.glob( dataPath[fth]+"/**/*"+img_ext ,recursive=True)
                 self.filePathList.append(sorted(tempList))
-                print("Loaded files from:" dataPath[fth])
+                print("Loaded files from:", dataPath[fth])
         else :
             sys.exit("Clubed data loading Not implemented for CSV")
 
         for path in self.filePathList:
-            if not ( len(filePathList[0]) == len(path) ):
+            if not ( len(self.filePathList[0]) == len(path) ):
                 sys.exit("MisMatch in the Loaded file counts of Clubbing")
 
     def __getitem__(self, idx):
         img = []
-        for fth in range(self.club_sz)
+        for fth in range(self.club_sz):
             tempImg = np.load(self.filePathList[fth][idx])
             tempImg = self.clip_scale_bands(tempImg)
             tempImg = torch.from_numpy(tempImg).type(torch.FloatTensor)
