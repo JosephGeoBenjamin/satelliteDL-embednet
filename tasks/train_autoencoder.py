@@ -1,3 +1,7 @@
+'''
+Train autoencoder with satellite tiles as input-output
+'''
+
 import torch
 from torch import nn
 from torch.utils.data import DataLoader

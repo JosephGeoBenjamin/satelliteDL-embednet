@@ -2,3 +2,6 @@
 .ipynb_checkpoints
 data
 weights
+logs
+__pycache__
+

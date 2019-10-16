@@ -1,3 +1,7 @@
+'''
+Train Decoder for reconstructing Tile-images from T2V-Embeddings
+'''
+
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
@@ -39,8 +43,8 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate,
                              weight_decay=1e-5)
 
 # [0] Path2Tiles [1] Path2Embeds
-DATASET_PATH= ['/home/jupyter/satellite-dl/satellite-data/transformer-tokens/matrix-tiles/cities/', 
-               '/home/jupyter/satellite-dl//satellite-data/transformer-tokens/Tile2Vec-embed/cities/']
+DATASET_PATH= ['/home/jupyter/satellite-dl/satellite-data/transformer-tokens/matrix-tiles/cities/T2V-Fresno/', 
+               '/home/jupyter/satellite-dl/satellite-data/transformer-tokens/Tile2Vec-embed/cities/T2V-Fresno/']
 
 train_dataset = ClubedTileData( dataPath= DATASET_PATH)
 train_dataloader = DataLoader(train_dataset, batch_size=batch_size,
