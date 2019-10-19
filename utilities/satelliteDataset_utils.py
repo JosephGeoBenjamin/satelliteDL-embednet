@@ -11,6 +11,9 @@ import csv
 
 class PlainTileData(Dataset):
     """ Loads all tiles in npy format in folder recursively
+    
+    __getitem__ : returns tile(image) and Path of tile file
+    
     """
 
     def __init__ (self, dataPath, dataCSV=None, imgExt=".npy"):
