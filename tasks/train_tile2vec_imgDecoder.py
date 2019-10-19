@@ -5,7 +5,7 @@ Train Decoder for reconstructing Tile-images from T2V-Embeddings
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
-from utilities.satelliteDataset_utils import ClubedTileData
+from utilities.satelliteDataset_utils import tileNembedData
 from utilities.logger_utils import LOG2CSV
 from networks.autoencoders.SimpleVarient import AutoEncoderVx
 import os
@@ -13,7 +13,7 @@ import os
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 #----------------------------------------------------
 
-TRAIN_NAME = "T2V-imgDec"
+TRAIN_NAME = "T2V-imgDec-Corrected"
 if not os.path.exists("logs/"+TRAIN_NAME): os.makedirs("logs/"+TRAIN_NAME)
 if not os.path.exists("weights/"+TRAIN_NAME): os.makedirs("weights/"+TRAIN_NAME)
 
@@ -46,7 +46,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate,
 DATASET_PATH= ['/home/jupyter/satellite-dl/satellite-data/transformer-tokens/matrix-tiles/cities/T2V-Fresno/', 
                '/home/jupyter/satellite-dl/satellite-data/transformer-tokens/Tile2Vec-embed/cities/T2V-Fresno/']
 
-train_dataset = ClubedTileData( dataPath= DATASET_PATH)
+train_dataset = tileNembedData( dataPath= DATASET_PATH)
 train_dataloader = DataLoader(train_dataset, batch_size=batch_size,
                                 shuffle=True, num_workers=0)
 
