@@ -58,7 +58,7 @@ if __name__ =="__main__":
         #--- Train
         acc_loss = float("inf")
         running_loss = []
-        for ith, (img, emb) in enumerate(train_dataloader):
+        for ith, (img, emb, _) in enumerate(train_dataloader):
             img = img.to(device)
             emb = emb.to(device)
             #--- forward

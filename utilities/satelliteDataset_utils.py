@@ -116,18 +116,17 @@ class tileNembedData(Dataset):
                 sys.exit("MisMatch in the Loaded file counts of Clubbing")
 
     def __getitem__(self, idx):
-        img = []
         # Tile
         tempImg = np.load(self.filePathList[0][idx])
         tempImg = self.clip_scale_bands(tempImg)
         tempImg = torch.from_numpy(tempImg).type(torch.FloatTensor)
-        img.append(Variable(tempImg))
+        img = Variable(tempImg)
         # Embed - no scaling
         tempImg = np.load(self.filePathList[1][idx])
         tempImg = torch.from_numpy(tempImg).type(torch.FloatTensor)
-        img.append(Variable(tempImg))
+        emb = Variable(tempImg)
 
-        return img
+        return img, emb, self.filePathList[0][idx]
 
     def __len__(self):
         return len(self.filePathList[0])
