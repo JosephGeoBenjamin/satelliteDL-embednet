@@ -146,16 +146,19 @@ class SimpleNumpyData(Dataset):
 
     """
 
-    def __init__ (self, dataPath, dataCSV=None):
+    def __init__ (self, dataPath, dataCSV=None, imgExt=".npy"):
         if not os.path.exists(dataPath): sys.exit("Enter a Valid READ_PATH")
 
         if not dataCSV:
             self.filePathList = glob.glob( dataPath+"/**/*"+imgExt ,recursive=True)
             self.filePathList = sorted(self.filePathList)
+            print("Loaded files from:", dataPath)
         else :
             with open(dataCSV, "r") as cf:
                 reader = csv.reader(cf)
                 self.filePathList = [ os.path.join(dataPath,r) for r in reader]
+                
+        print("")
 
     def __getitem__(self, idx):
         img = np.load(self.filePathList[idx])

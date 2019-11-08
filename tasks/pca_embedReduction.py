@@ -13,17 +13,14 @@ import numpy as np
 import pickle
 
 
-READ_PATH = None
+READ_PATH = "/home/jupyter/satellite-dl/satellite-data/transformer-tokens/Tile2Vec-embed/cities/"
 FIT_OBJ = "weights/IncPCA-t2v.pickled"
 
-batch_size = 4096
+batch_size = 4096 * 2
 np_dataset = SimpleNumpyData(dataPath = READ_PATH )
 np_dataloader = DataLoader(np_dataset, batch_size=batch_size,
                         shuffle=True, num_workers=0)
 
-pca = PCA(n_components=1)
-pca.fit(X)
-X_pca = pca.transform(X)
 
 def train():
     icpa = IncrementalPCA(n_components=256, batch_size=batch_size)
@@ -31,14 +28,14 @@ def train():
         tot_data_len = len(np_dataloader)
         for ith, (embs, _) in enumerate(np_dataloader):
             icpa.partial_fit(embs)
-            print("Mini Batch-{}/{}" , (ith+1), tot_data_len)
-            if ((ith%1000) == 0)
-                file_pk = open(FIT_OBJ, 'w')
-                pickle.dump(icpa, file_pk)
+            print("Mini Batch-{}/{}".format(ith+1, tot_data_len) )
+            if ((ith%100) == 0):
+                with open(FIT_OBJ, 'wb') as file_pk:
+                    pickle.dump(icpa, file_pk)
                 print("Dumping Object")
 
-        file_pk = open(FIT_OBJ, 'w')
-        pickle.dump(icpa, file_pk)
+        with open(FIT_OBJ, 'wb') as file_pk:
+            pickle.dump(icpa, file_pk)
         print("END OF EPOCH")
 
 
