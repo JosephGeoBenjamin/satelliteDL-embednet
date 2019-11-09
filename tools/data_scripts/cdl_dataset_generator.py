@@ -56,8 +56,9 @@ def cropland_dataset_gen(array, stride=1, tileSz=50,
     Naming in matrix type
     '''
     join = os.path.join
-    probSavePath = join(savePath,"tiles",filePrefix[0])
-    tileSavePath = join(savePath,"cdl_prob",filePrefix[0])
+    # create folders based on prefix
+    probSavePath = join(savePath,"tiles",filePrefix)
+    tileSavePath = join(savePath,"cdl_prob",filePrefix)
     print("** SAVE PATH:",probSavePath)
     if not os.path.exists(probSavePath): os.makedirs(probSavePath)
     if not os.path.exists(tileSavePath): os.makedirs(tileSavePath)
@@ -68,8 +69,8 @@ def cropland_dataset_gen(array, stride=1, tileSz=50,
         for j in range(sz, W-sz, tileSz*stride):
             tile = square_tile_gen(array, (i,j), tileSz)
             prob = compute_CDL_probs(tile)
-            np.save(join(probSavePath,filePrefix[1]+"-"+str(i)+"-"+str(j)+ "-CDL_prob.npy"), prob, allow_pickle=False)
-            np.save(join(tileSavePath,filePrefix[1]+"-"+str(i)+"-"+str(j)+ "-tile.npy"), tile.astype(np.uint8), allow_pickle=False)
+            np.save(join(probSavePath,filePrefix+"-"+str(i)+"-"+str(j)+ "-CDL_prob.npy"), prob, allow_pickle=False)
+            np.save(join(tileSavePath,filePrefix+"-"+str(i)+"-"+str(j)+ "-tile.npy"), tile.astype(np.uint8), allow_pickle=False)
 
 
 
@@ -87,9 +88,7 @@ for root, dirc, files in os.walk(READ_PATH):
         gData = gdal.Open(tifPath)
         geoArray = np.array(gData.ReadAsArray())
         # refer footnotes [1]prefix
-        prefixP = root.replace(READ_PATH,"") # for folder path
-        prefixN = root.replace(READ_PATH,"").replace("/","-") + "-" + str(ith) # for file name
-        prefix = [prefixP,prefixN]
+        prefix = root.replace(READ_PATH,"").replace("/","-") + "-" + str(ith)
         cropland_dataset_gen(geoArray,
                         stride = 1,
                         savePath = savePath,
