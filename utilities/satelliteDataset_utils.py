@@ -158,7 +158,6 @@ class SimpleNumpyData(Dataset):
                 reader = csv.reader(cf)
                 self.filePathList = [ os.path.join(dataPath,r) for r in reader]
                 
-        print("")
 
     def __getitem__(self, idx):
         img = np.load(self.filePathList[idx])

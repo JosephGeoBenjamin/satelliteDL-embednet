@@ -12,7 +12,10 @@ def LOG2CSV(data, csv_file, flag = 'a'):
 def SAVE2NUMPY(array, savePath):
     direc = savePath.replace(os.path.basename(savePath), "") 
     if not os.path.exists(direc): os.makedirs(direc)
-    out = array.cpu().data.numpy()
+    try: # For torch
+        out = array.cpu().data.numpy()
+    except: # for regular numpy
+        out = array
     np.save(savePath, out, allow_pickle=False)
     
     
