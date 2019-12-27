@@ -24,6 +24,9 @@ def parsePosition(file): # starts from 0
     width = int(nameSplit[-2])
     return height, width
 
+
+#========================= Main Routine ===============================
+
 hdf_file =h5py.File("matrix-tiles-cities.hdf5", "w-")
 
 folders = glob.glob(READ_PATH+"/**/",recursive=True)

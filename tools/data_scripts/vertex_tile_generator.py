@@ -82,6 +82,7 @@ def matrix_tiler(array, stride=1, tileSz=50,
     Dumps tiles of given geoTiff. Naming in matrix type
     '''
     join = os.path.join
+    # Create folder based on prefix
     subSavePath = join(savePath, filePrefix)
     if not os.path.exists(subSavePath):
         print("** sub SAVE PATH:",subSavePath)
